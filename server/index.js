@@ -1,17 +1,27 @@
 import express from "express";
-
 import mongoose from "mongoose";
 import cors from "cors";
 
 import postRoutes from "./routes/posts.js";
 
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS,"
+  );
+  next();
+});
 
 app.use(express.urlencoded({ limit: "25mb", extended: true }));
 app.use(express.json({ limit: "25mb" }));
-app.use(cors());
 
-app.use("/posts", postRoutes);
+app.use("/posts", postRoutes, cors());
 
 const CONNECTION_URL =
   "mongodb+srv://Sentinel19:Sentinel19@cluster0.gdvyy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
