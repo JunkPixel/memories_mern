@@ -1,8 +1,7 @@
 import express from "express";
-import cors from "cors";
+
 import {
   getPosts,
-  getPost,
   createPost,
   updatePost,
   likePost,
@@ -10,12 +9,12 @@ import {
 } from "../controllers/posts.js";
 
 const router = express.Router();
+import auth from "../middleware/auth.js";
 
 router.get("/", getPosts);
-router.post("/", createPost);
-router.get("/:id", getPost);
-router.put("/:id", updatePost);
-router.delete("/:id", deletePost);
-router.put("/:id/likePost", likePost);
+router.post("/", auth, createPost);
+router.put("/:id", auth, updatePost);
+router.delete("/:id", auth, deletePost);
+router.put("/:id/likePost", auth, likePost);
 
 export default router;
